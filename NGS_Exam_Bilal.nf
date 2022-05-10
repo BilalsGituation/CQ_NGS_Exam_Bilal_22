@@ -32,7 +32,7 @@ Steps of this workflow:
 // 1) A NEXTFLOW CONFIG FILE
 // 2) THIS SCRIPT
 // 3) THE UNZIPPED rawdata.tar.gz ARCHIVE
-// 4) NO OTHER FILES (maybe the exam answer (.md))
+// 4) NO OTHER FILES (maybe the exam answer (.md), and/or code licence)
 
 
 params.outdir = "ExamResults"
@@ -99,3 +99,6 @@ workflow {
   texts.report.view()
   //resistDB.view()
 }
+
+// cmd line:
+// nextflow NGS_Exam_Bilal.nf --db CARD_v3.0.8_SRST2.fasta --outdir AlonaResults -profile singularity
