@@ -61,7 +61,7 @@ process fastqc {
   input:
     path fastP_plusRaw
   output:
-    path "${fastP_plusRaw}"
+    path "*"
   script:
     """
     fastqc ${fastP_plusRaw}
@@ -83,22 +83,90 @@ process srst2 {
     """
 }
 
-// I will leave the commented-out workflow steps as they are.
-// The fastqc step was working for me but you can check it if you want
 workflow {
   infolder_fastq = "/rawdata"
-  //database = Channel.fromPath("${params.db}")
   fastqChannel = Channel.fromPath('rawdata/*.fastq').flatten()
   dbChannel = Channel.value("${params.db}")
   fastpout = fastp(fastqChannel.flatten())
+  fastpout.trim.view()
   s2_in1 = (fastpout.trim.flatten())
-  //s2_in2 = s2_in1.combine(dbChannel)
-  fastP_plusRaw = fastqChannel.concat(fastpout.trim)
-  qcd = fastqc(fastP_plusRaw.flatten())
+  // Edit: these files are too big to run fastqc on the raw data
+  // so I am going to omit the raw data/fastp data channel
+  qcd = fastqc(fastpout.trim.flatten())
+  qcd.view()
   texts = srst2(s2_in1, dbChannel)
   texts.report.view()
-  //resistDB.view()
 }
 
 // cmd line:
 // nextflow NGS_Exam_Bilal.nf --db CARD_v3.0.8_SRST2.fasta --outdir AlonaResults -profile singularity
+
+/* cmd line output before submission:
+N E X T F L O W  ~  version 21.10.6
+Launching `NGS_Exam_Bilal.nf` [focused_bernard] - revision: ef73ffcb00
+executor >  local (8)
+executor >  local (9)
+[f0/671709] process > fastp (3)  [100%] 3 of 3 ✔
+executor >  local (9)
+[f0/671709] process > fastp (3)  [100%] 3 of 3 ✔
+[f2/f32361] process > fastqc (3) [100%] 3 of 3 ✔
+executor >  local (9)
+[f0/671709] process > fastp (3)  [100%] 3 of 3 ✔
+[f2/f32361] process > fastqc (3) [100%] 3 of 3 ✔
+[93/794a60] process > srst2 (1)  [ 33%] 1 of 3
+[/home/cq/Documents/work/d1/8c3bcc618ed1ecfe0a25f93968bfe2/patient1_fastp_fastqc.html,executor >  local (9)
+[f0/671709] process > fastp (3)  [100%] 3 of 3 ✔
+[f2/f32361] process > fastqc (3) [100%] 3 of 3 ✔
+[50/f7f28c] process > srst2 (2)  [ 66%] 2 of 3
+[/home/cq/Documents/work/a0/717f033a4dd40e050fffd4805c100f/patient2_fastp_fastqc.html, /home/cq/Documents/work/a0/717f033a4dd40e050fffd4805c100f/patient2_fastp_fastqc.zip]
+executor >  local (9)
+[f0/671709] process > fastp (3)  [100%] 3 of 3 ✔
+[f2/f32361] process > fastqc (3) [100%] 3 of 3 ✔
+[49/20b7e0] process > srst2 (3)  [100%] 3 of 3 ✔
+[/home/cq/Documents/work/f2/f32361d02eebc46dde360a3166b150/patient3_fastp_fastqc.html, /home/cq/Documents/work/f2/f32361d02eebc46dde360a3166b150/patient3_fastp_fastqc.zip]
+[/home/cq/Documents/work/93/794a60ab0d92d375ac47f176e50259/patient1_fastp.txt__fullgenexecutor >  local (9)
+[f0/671709] process > fastp (3)  [100%] 3 of 3 ✔
+[f2/f32361] process > fastqc (3) [100%] 3 of 3 ✔
+[49/20b7e0] process > srst2 (3)  [100%] 3 of 3 ✔
+[/home/cq/Documents/work/f2/f32361d02eebc46dde360a3166b150/patient3_fastp_fastqc.html, /home/cq/Documents/work/f2/f32361d02eebc46dde360a3166b150/patient3_fastp_fastqc.zip]
+[/home/cq/Documents/work/93/794a60ab0d92d375ac47f176e50259/patient1_fastp.txt__fullgenes__CARD_v3.0.8_SRST2__results.txt, /home/cq/Documents/work/93/794a60ab0d92d375ac47f176e50259/patient1_fastp.txt__genes__CARD_v3.0.8_SRST2__results.txt]
+[/home/cq/Documents/work/50/f7f28c0e5476b398ef74ed1c88b6df/patient2_fastp.txt__fullgenes__CARD_v3.0.8_SRST2__results.txt, /home/cq/Documents/work/50/f7f28c0e5476b398ef74ed1c88b6df/patient2_fastp.txt__genes__CARD_v3.0.8_SRST2__results.txt]
+[/home/cq/Documents/work/49/20b7e0a689c852fe171364efebccd5/patient3_fastp.txt__fullgenes__CARD_v3.0.8_SRST2__results.txt, /home/cq/Documents/work/49/20b7e0a689c852fe171364efebccd5/patient3_fastp.txt__genes__CARD_v3.0.8_SRST2__results.txt]
+
+Completed at: 12-May-2022 12:11:46
+Duration    : 1m 24s
+CPU hours   : 0.1
+Succeeded   : 9
+
+(base) cq@bioinfobox:PATH_CENSORED ls AlonaResults/
+patient1_fastp.fastq
+patient1_fastp_fastqc.html
+patient1_fastp_fastqc.zip
+patient1_fastp.html
+patient1_fastp.json
+patient1_fastp.txt__fullgenes__CARD_v3.0.8_SRST2__results.txt
+patient1_fastp.txt__genes__CARD_v3.0.8_SRST2__results.txt
+patient1_fastp.txt.log
+patient1_fastp.txt__patient1_fastp.CARD_v3.0.8_SRST2.pileup
+patient1_fastp.txt__patient1_fastp.CARD_v3.0.8_SRST2.sorted.bam
+patient2_fastp.fastq
+patient2_fastp_fastqc.html
+patient2_fastp_fastqc.zip
+patient2_fastp.html
+patient2_fastp.json
+patient2_fastp.txt__fullgenes__CARD_v3.0.8_SRST2__results.txt
+patient2_fastp.txt__genes__CARD_v3.0.8_SRST2__results.txt
+patient2_fastp.txt.log
+patient2_fastp.txt__patient2_fastp.CARD_v3.0.8_SRST2.pileup
+patient2_fastp.txt__patient2_fastp.CARD_v3.0.8_SRST2.sorted.bam
+patient3_fastp.fastq
+patient3_fastp_fastqc.html
+patient3_fastp_fastqc.zip
+patient3_fastp.html
+patient3_fastp.json
+patient3_fastp.txt__fullgenes__CARD_v3.0.8_SRST2__results.txt
+patient3_fastp.txt__genes__CARD_v3.0.8_SRST2__results.txt
+patient3_fastp.txt.log
+patient3_fastp.txt__patient3_fastp.CARD_v3.0.8_SRST2.pileup
+patient3_fastp.txt__patient3_fastp.CARD_v3.0.8_SRST2.sorted.bam
+*/
