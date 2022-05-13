@@ -27,7 +27,7 @@ Steps of this workflow:
 
 // So this workflow needs the processes fastp, fastqc and Srst2
 
-// More instructions from the paper (or me to user?):
+// More instructions:
 // RUN THIS IN A NEWLY-CREATED DIRECTORY WITH:
 // 1) A NEXTFLOW CONFIG FILE
 // 2) THIS SCRIPT
