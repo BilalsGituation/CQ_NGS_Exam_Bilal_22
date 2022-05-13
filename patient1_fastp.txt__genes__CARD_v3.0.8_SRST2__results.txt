@@ -1,0 +1,2 @@
+Sample	APH3''_AGly	APH6_AGly	AmpC1_Bla	Dfr_Tmt	MphB_MLS	StrA_AGly	StrB_AGly	Sul_Sul	TEM_Bla
+patient1_fastp	aph3''-Ib_146*	aph6-Id.v1_171*	AmpC1_286*	dfrA8_2391	mphB.v2_2176*	strA.v1_2409*	strB.v1_2410*	sul2_2284	TEM-70_1665*?

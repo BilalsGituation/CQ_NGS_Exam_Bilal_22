@@ -1,0 +1,2 @@
+Sample	ANT3''_AGly	AmpC1_Bla	Cat_Phe	MphB_MLS	OXA_Bla	TetB_Tet
+patient3_fastp	aadA_93*	AmpC1_286*	catA1_2229*	mphB.v2_2176*	OXA-1_999?	tetB.v2_2325*?

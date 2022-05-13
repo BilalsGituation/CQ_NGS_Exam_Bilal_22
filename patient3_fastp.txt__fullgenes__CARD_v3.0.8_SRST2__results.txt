@@ -1,0 +1,7 @@
+Sample	DB	gene	allele	coverage	depth	diffs	uncertainty	divergence	length	maxMAF	clusterid	seqid	annotation
+patient3_fastp	CARD_v3.0.8_SRST2	AmpC1_Bla	AmpC1_286	100.0	22.533	16snp		1.226	1305	0.067	38	286	
+patient3_fastp	CARD_v3.0.8_SRST2	OXA_Bla	OXA-1_999	100.0	9.038		edge1.0	0.0	831	0.125	117	999	
+patient3_fastp	CARD_v3.0.8_SRST2	Cat_Phe	catA1_2229	100.0	15.572	1snp		0.152	660	0.1	326	2229	
+patient3_fastp	CARD_v3.0.8_SRST2	TetB_Tet	tetB.v2_2325	100.0	19.443	3snp	edge2.0	0.249	1206	0.333	369	2325	
+patient3_fastp	CARD_v3.0.8_SRST2	ANT3''_AGly	aadA_93	100.0	19.68	2snp		0.253	792	0.1	5	93	
+patient3_fastp	CARD_v3.0.8_SRST2	MphB_MLS	mphB.v2_2176	100.0	23.801	7snp		1.468	477	0.053	283	2176	
